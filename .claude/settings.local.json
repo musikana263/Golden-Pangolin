@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Select-String -Pattern \"env\")",
+      "Bash(./vendor/bin/phpunit --no-coverage)",
+      "Bash(cmd /c \"rmdir /S /Q deploy\")"
+    ]
+  }
+}

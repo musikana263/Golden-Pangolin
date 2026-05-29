@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: golden-pangolin-app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - golden-pangolin-network
+    depends_on:
+      - db
+      - redis
+
+  nginx:
+    image: nginx:alpine
+    container_name: golden-pangolin-nginx
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - golden-pangolin-network
+    depends_on:
+      - app
+
+  db:
+    image: mysql:8.0
+    container_name: golden-pangolin-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-golden_pangolin}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-password}
+      MYSQL_USER: ${DB_USERNAME:-golden_pangolin}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-password}
+    ports:
+      - "3307:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - golden-pangolin-network
+
+  redis:
+    image: redis:alpine
+    container_name: golden-pangolin-redis
+    restart: unless-stopped
+    ports:
+      - "6380:6379"
+    networks:
+      - golden-pangolin-network
+
+  mailpit:
+    image: axllent/mailpit
+    container_name: golden-pangolin-mail
+    restart: unless-stopped
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+    networks:
+      - golden-pangolin-network
+
+networks:
+  golden-pangolin-network:
+    driver: bridge
+
+volumes:
+  db-data:

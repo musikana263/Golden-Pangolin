@@ -1,0 +1,1681 @@
+/* ============================================
+   Golden Pangolin — Site Background (light + dark)
+   ============================================ */
+
+/* Pure white page in light mode — cards and photos own the visual weight.
+   Dark mode overrides further down. */
+html, body {
+    background-color: #ffffff;
+}
+
+body {
+    background-image: none;
+}
+
+/* Glow overlay no longer used in light mode (replaced by the gradient above),
+   but kept on the element so existing markup doesn't break. */
+.gp-glow-overlay { display: none; }
+
+/* Ensure the wishlist button stays clickable above the image */
+.tt-dest-card-img > .gp-wishlist-overlay {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 5;
+}
+
+.gp-wish-form,
+.gp-wish-btn { position: relative; z-index: 2; }
+
+@keyframes gpPangolinDrift {
+    0%   { transform: translate(-2%, 1%) scale(1); }
+    100% { transform: translate(3%, -2%) scale(1.04); }
+}
+
+/* Sections fully transparent so the pangolin pattern shows everywhere.
+   Cards/sidebars/forms have their own solid surfaces for readability. */
+.tt-section,
+.tt-section-sm,
+.tt-section-light {
+    background: transparent !important;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+/* Disable the old SVG layer — the body bg now handles it */
+.gp-pangolin-bg { position: relative; }
+.gp-pangolin-bg::before { content: none; }
+
+/* ===== Dark mode variant ===== */
+html[data-theme="dark"],
+html[data-theme="dark"] body {
+    background-color: #0c0c10;
+}
+
+html[data-theme="dark"] body {
+    background-image:
+        radial-gradient(80% 50% at 50% -10%, rgba(212, 160, 60, .12), transparent 70%),
+        linear-gradient(180deg, #0c0c10 0%, #14110b 100%);
+    background-size: 100% 100%, 100% 100%;
+    background-repeat: no-repeat, no-repeat;
+    background-attachment: fixed, fixed;
+}
+
+html[data-theme="dark"] .tt-section,
+html[data-theme="dark"] .tt-section-sm,
+html[data-theme="dark"] .tt-section-light {
+    background: transparent !important;
+}
+
+html[data-theme="dark"] {
+    --tt-primary-light: #2a221a;
+    --tt-accent-light: #2a221a;
+    --tt-dark: #f5f5f5;
+    --tt-dark-soft: #e5e5e5;
+    --tt-text: #d4d4d8;
+    --tt-text-muted: #a1a1aa;
+    --tt-light: #18181b;
+    --tt-lighter: #0f0f12;
+    --tt-border: #2a2a30;
+    --tt-shadow-sm: 0 1px 3px rgba(0, 0, 0, .35);
+    --tt-shadow: 0 4px 16px rgba(0, 0, 0, .45);
+    --tt-shadow-lg: 0 12px 40px rgba(0, 0, 0, .55);
+}
+
+html[data-theme="dark"] body {
+    background: var(--tt-lighter);
+    color: var(--tt-text);
+}
+
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3,
+html[data-theme="dark"] h4,
+html[data-theme="dark"] h5,
+html[data-theme="dark"] h6 {
+    color: var(--tt-dark);
+}
+
+html[data-theme="dark"] .tt-navbar {
+    background: rgba(15, 15, 18, 0.45) !important;
+    backdrop-filter: blur(16px) saturate(160%);
+    border-bottom-color: rgba(212, 160, 60, 0.18);
+}
+html[data-theme="dark"] .tt-navbar.scrolled {
+    background: rgba(15, 15, 18, 0.75) !important;
+    border-bottom-color: rgba(212, 160, 60, 0.28);
+}
+
+/* ---------- Brand mark (logo + wordmark) ---------- */
+.gp-brand {
+    gap: .75rem;
+    padding: 0 !important;
+}
+.gp-brand-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform .25s ease;
+}
+.gp-brand-mark img {
+    height: 76px;
+    width: auto;
+    display: block;
+    transition: filter .25s ease;
+}
+.gp-brand:hover .gp-brand-mark { transform: scale(1.03); }
+
+.gp-brand-text {
+    font-family: var(--tt-font-display);
+    font-weight: 700;
+    font-size: 1.55rem;
+    letter-spacing: -.01em;
+    color: var(--tt-dark);
+    line-height: 1;
+}
+.gp-brand-text .brand-accent { color: var(--tt-accent); }
+
+/* Dark mode — the logo is black + a touch of orange, so on a dark canvas it
+   disappears. No solid plate behind it — instead stack drop-shadows to give
+   the silhouette a soft golden rim + a wider warm aura. The logo keeps its
+   original shape and colours; just the air around it glows. */
+html[data-theme="dark"] .gp-brand-text { color: #f5f5f5; }
+html[data-theme="dark"] .gp-brand-mark img {
+    filter:
+        drop-shadow(0 0 1px rgba(255, 230, 170, 0.95))
+        drop-shadow(0 0 2px rgba(243, 199, 121, 0.85))
+        drop-shadow(0 0 8px rgba(212, 160, 60, 0.55))
+        drop-shadow(0 0 18px rgba(212, 160, 60, 0.30));
+}
+html[data-theme="dark"] .gp-brand:hover .gp-brand-mark img {
+    filter:
+        drop-shadow(0 0 1px rgba(255, 230, 170, 1))
+        drop-shadow(0 0 3px rgba(243, 199, 121, 0.95))
+        drop-shadow(0 0 12px rgba(212, 160, 60, 0.65))
+        drop-shadow(0 0 24px rgba(212, 160, 60, 0.40));
+}
+
+@media (max-width: 575.98px) {
+    .gp-brand-mark img { height: 54px; }
+    .gp-brand-text { font-size: 1.2rem; }
+}
+
+html[data-theme="dark"] .tt-navbar .nav-link {
+    color: var(--tt-text) !important;
+}
+
+html[data-theme="dark"] .tt-navbar .nav-link.active,
+html[data-theme="dark"] .tt-navbar .nav-link:hover {
+    color: var(--tt-accent) !important;
+}
+
+html[data-theme="dark"] .navbar-toggler-icon {
+    filter: invert(1);
+}
+
+html[data-theme="dark"] .tt-section-light,
+html[data-theme="dark"] .bg-light {
+    background: #131316 !important;
+}
+
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .tt-dest-card,
+html[data-theme="dark"] .tt-hero-card,
+html[data-theme="dark"] .admin-card,
+html[data-theme="dark"] .tt-sidebar-card,
+html[data-theme="dark"] .tt-detail-booking,
+html[data-theme="dark"] .tt-mission-card,
+html[data-theme="dark"] .tt-feature-card,
+html[data-theme="dark"] .tt-value-card,
+html[data-theme="dark"] .tt-contact-card,
+html[data-theme="dark"] .tt-cat-card,
+html[data-theme="dark"] .tt-blog-card {
+    background: linear-gradient(180deg, #1c1c22 0%, #15151a 100%) !important;
+    border: 1px solid rgba(212, 160, 60, 0.18) !important;
+    color: var(--tt-text);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+}
+
+html[data-theme="dark"] .tt-mission-card h3,
+html[data-theme="dark"] .tt-mission-card h4,
+html[data-theme="dark"] .tt-feature-card h4,
+html[data-theme="dark"] .tt-value-card h4,
+html[data-theme="dark"] .tt-contact-card h5,
+html[data-theme="dark"] .tt-cat-card h5 {
+    color: #f5f5f5 !important;
+}
+
+html[data-theme="dark"] .tt-mission-card p,
+html[data-theme="dark"] .tt-feature-card p,
+html[data-theme="dark"] .tt-value-card p,
+html[data-theme="dark"] .tt-contact-card p {
+    color: var(--tt-text) !important;
+}
+
+html[data-theme="dark"] .tt-contact-card a {
+    color: var(--tt-accent);
+}
+
+html[data-theme="dark"] .tt-mission-card .icon,
+html[data-theme="dark"] .tt-feature-card .icon,
+html[data-theme="dark"] .tt-value-card .icon,
+html[data-theme="dark"] .tt-contact-card .icon,
+html[data-theme="dark"] .tt-cat-card .icon,
+html[data-theme="dark"] .tt-feature-icon {
+    background: rgba(212, 160, 60, .15) !important;
+    color: var(--tt-accent) !important;
+}
+
+html[data-theme="dark"] .tt-dest-card:hover,
+html[data-theme="dark"] .tt-hero-card:hover {
+    border-color: rgba(212, 160, 60, 0.45) !important;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 32px rgba(212, 160, 60, 0.12), 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+html[data-theme="dark"] .tt-dest-card-title a,
+html[data-theme="dark"] .tt-hero-card-body h4 {
+    color: #f5f5f5 !important;
+}
+
+html[data-theme="dark"] .tt-dest-card-desc,
+html[data-theme="dark"] .tt-dest-card-meta {
+    color: var(--tt-text-muted) !important;
+}
+
+html[data-theme="dark"] .tt-pretitle,
+html[data-theme="dark"] .tt-subtitle {
+    color: var(--tt-text-muted);
+}
+
+html[data-theme="dark"] .breadcrumb-item a,
+html[data-theme="dark"] .breadcrumb-item.active {
+    color: var(--tt-text) !important;
+}
+
+html[data-theme="dark"] .badge.bg-light {
+    background: rgba(212, 160, 60, 0.15) !important;
+    color: var(--tt-accent) !important;
+    border-color: rgba(212, 160, 60, 0.3) !important;
+}
+
+html[data-theme="dark"] table {
+    color: var(--tt-text);
+}
+
+html[data-theme="dark"] .table-borderless tbody tr:hover {
+    background: rgba(212, 160, 60, 0.05);
+}
+
+html[data-theme="dark"] .tt-footer {
+    background: #08080a;
+    color: var(--tt-text);
+}
+
+html[data-theme="dark"] .form-control,
+html[data-theme="dark"] .form-select,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] input[type="text"],
+html[data-theme="dark"] input[type="email"],
+html[data-theme="dark"] input[type="search"],
+html[data-theme="dark"] input[type="number"],
+html[data-theme="dark"] input[type="password"],
+html[data-theme="dark"] .tt-input {
+    background-color: #1a1a20 !important;
+    color: var(--tt-text) !important;
+    border-color: rgba(212, 160, 60, .25) !important;
+}
+
+html[data-theme="dark"] .form-control::placeholder,
+html[data-theme="dark"] .tt-input::placeholder,
+html[data-theme="dark"] textarea::placeholder {
+    color: rgba(255, 255, 255, .35) !important;
+}
+
+html[data-theme="dark"] .form-control:focus,
+html[data-theme="dark"] .form-select:focus,
+html[data-theme="dark"] .tt-input:focus,
+html[data-theme="dark"] textarea:focus {
+    background-color: #1a1a20 !important;
+    border-color: var(--tt-accent) !important;
+    box-shadow: 0 0 0 .15rem rgba(212, 160, 60, .25) !important;
+    color: var(--tt-text) !important;
+}
+
+/* Search-bar cards on listing pages */
+html[data-theme="dark"] .tt-search-bar {
+    background: linear-gradient(180deg, #1c1c22 0%, #15151a 100%) !important;
+    border: 1px solid rgba(212, 160, 60, .18) !important;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, .4);
+}
+
+html[data-theme="dark"] .tt-search-bar label,
+html[data-theme="dark"] .tt-form-label {
+    color: var(--tt-text-muted) !important;
+}
+
+/* Native select arrow color fix */
+html[data-theme="dark"] select.form-select,
+html[data-theme="dark"] select.tt-input {
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23d4a03c' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat;
+    background-position: right .75rem center;
+    background-size: 16px 12px;
+}
+
+html[data-theme="dark"] .dropdown-menu {
+    background: var(--tt-light);
+    border-color: var(--tt-border);
+}
+
+html[data-theme="dark"] .dropdown-item {
+    color: var(--tt-text);
+}
+
+html[data-theme="dark"] .dropdown-item:hover {
+    background: rgba(212, 160, 60, 0.12);
+    color: var(--tt-accent);
+}
+
+html[data-theme="dark"] .gp-cookie-consent {
+    background: var(--tt-light);
+    color: var(--tt-text);
+    border-color: var(--tt-border);
+}
+
+html[data-theme="dark"] .gp-cookie-btn-ghost {
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+/* ============================================
+   POLISH LAYER — applies in BOTH light & dark
+   ============================================ */
+
+:root {
+    --tt-text: #2d2d3a;
+    --tt-shadow-sm: 0 1px 2px rgba(15,23,42,.04), 0 1px 3px rgba(15,23,42,.06);
+    --tt-shadow: 0 4px 16px -6px rgba(15,23,42,.10), 0 2px 4px rgba(15,23,42,.05);
+    --tt-shadow-lg: 0 24px 48px -16px rgba(15,23,42,.22), 0 8px 16px -8px rgba(15,23,42,.10);
+}
+
+body {
+    font-size: 1.02rem;
+    line-height: 1.7;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    letter-spacing: -.012em;
+}
+
+/* ---------- Section rhythm — tightened spacing ---------- */
+.tt-section { padding: 4.5rem 0; }
+.tt-section-sm { padding: 2.25rem 0; }
+.tt-section-header { margin-bottom: 2.5rem; }
+
+@media (max-width: 768px) {
+    .tt-section { padding: 3rem 0; }
+    .tt-section-sm { padding: 1.75rem 0; }
+    .tt-section-header { margin-bottom: 1.75rem; }
+}
+
+/* Narrower editorial container option */
+.container.container-editorial { max-width: 920px; }
+
+/* Larger gutter between grid items */
+.tt-dest-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+@media (min-width: 992px) {
+    .tt-dest-grid { gap: 2.5rem; }
+}
+
+.tt-pretitle {
+    text-transform: uppercase;
+    letter-spacing: .18em;
+    font-size: .78rem;
+    font-weight: 600;
+    color: var(--tt-accent);
+    margin-bottom: .85rem;
+}
+
+.tt-title {
+    font-family: var(--tt-font-display);
+    font-size: clamp(1.85rem, 3.2vw, 2.85rem);
+    line-height: 1.12;
+    letter-spacing: -.018em;
+    margin-bottom: 1rem;
+}
+
+.tt-subtitle {
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.05rem;
+    color: var(--tt-text-muted);
+    line-height: 1.75;
+}
+
+/* Hero — sits higher on the page, content anchored toward the top */
+.tt-hero {
+    min-height: 72vh;
+    display: flex;
+    align-items: flex-start;
+    padding: 5rem 0 3rem;
+}
+
+.tt-hero-title {
+    font-family: var(--tt-font-display);
+    font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+    line-height: 1.04;
+    letter-spacing: -.025em;
+    margin-bottom: 1.75rem;
+}
+
+.tt-hero-text {
+    max-width: 560px;
+    font-size: 1.15rem;
+    line-height: 1.75;
+    margin-bottom: 2.5rem;
+}
+
+.tt-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+/* Page hero (about, blog, etc.) */
+.tt-page-hero {
+    padding: 9rem 0 5rem;
+    text-align: center;
+}
+.tt-page-title {
+    font-family: var(--tt-font-display);
+    font-size: clamp(2.25rem, 4.5vw, 3.75rem);
+    line-height: 1.08;
+    letter-spacing: -.022em;
+    margin-bottom: 1rem;
+}
+.tt-page-subtitle {
+    max-width: 640px;
+    margin: 0 auto;
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: rgba(255,255,255,.85);
+}
+.tt-page-hero .breadcrumb {
+    margin-bottom: 1.5rem;
+    font-size: .9rem;
+}
+
+/* ---------- Cards (light mode base) ---------- */
+.tt-mission-card,
+.tt-feature-card,
+.tt-value-card,
+.tt-contact-card,
+.tt-cat-card,
+.tt-blog-card {
+    background: var(--tt-lighter);
+    border: 1px solid var(--tt-border);
+    border-radius: var(--tt-radius-lg);
+    padding: 2.75rem;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    box-shadow: var(--tt-shadow-sm);
+}
+
+.tt-mission-card h3,
+.tt-mission-card h4,
+.tt-contact-card h5 {
+    font-family: var(--tt-font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--tt-dark);
+}
+
+.tt-mission-card p,
+.tt-feature-card p,
+.tt-value-card p,
+.tt-contact-card p,
+.tt-contact-card a {
+    color: var(--tt-text-muted);
+    line-height: 1.75;
+    margin-bottom: .35rem;
+    font-size: 1rem;
+}
+
+.tt-contact-card a:hover { color: var(--tt-accent); }
+
+.tt-mission-card:hover,
+.tt-feature-card:hover,
+.tt-value-card:hover,
+.tt-contact-card:hover,
+.tt-cat-card:hover,
+.tt-blog-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--tt-shadow-lg);
+    border-color: rgba(212, 160, 60, .35);
+}
+
+.tt-mission-card .icon,
+.tt-feature-card .icon,
+.tt-value-card .icon,
+.tt-contact-card .icon,
+.tt-cat-card .icon,
+.tt-feature-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--tt-accent-light) !important;
+    color: var(--tt-accent-dark) !important;
+    font-size: 1.4rem;
+    margin-bottom: 1.25rem;
+    transition: background .25s ease, color .25s ease, transform .25s ease;
+    flex-shrink: 0;
+}
+
+.tt-feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--tt-border);
+}
+.tt-feature-item:last-child { border-bottom: none; }
+.tt-feature-item h4 {
+    font-family: var(--tt-font-display);
+    font-size: 1.25rem;
+    margin-bottom: .5rem;
+}
+.tt-feature-item p {
+    color: var(--tt-text-muted);
+    margin: 0;
+    line-height: 1.75;
+}
+html[data-theme="dark"] .tt-feature-item {
+    border-bottom-color: rgba(255,255,255,.06);
+}
+
+.tt-features-img img {
+    border-radius: var(--tt-radius-xl);
+    box-shadow: var(--tt-shadow-lg);
+    width: 100%;
+}
+
+/* ---------- Activity list rows ---------- */
+.tt-activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.tt-activity-row {
+    display: flex;
+    gap: 0;
+    background: var(--tt-lighter);
+    border: 1px solid var(--tt-border);
+    border-radius: var(--tt-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--tt-shadow-sm);
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+.tt-activity-row:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--tt-shadow-lg);
+    border-color: rgba(212, 160, 60, .35);
+}
+
+.tt-activity-row-img {
+    width: 320px;
+    height: 240px;
+    flex-shrink: 0;
+    background: var(--tt-accent-light);
+    position: relative;
+    overflow: hidden;
+}
+
+.tt-activity-row-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .5s ease;
+}
+
+.tt-activity-row:hover .tt-activity-row-img img { transform: scale(1.05); }
+
+.tt-activity-row-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    min-height: 160px;
+    color: var(--tt-accent);
+    font-size: 2rem;
+    opacity: .35;
+}
+
+.tt-activity-row-content {
+    padding: 1.5rem 1.75rem;
+    flex: 1;
+    min-width: 0;
+}
+
+.tt-activity-row-content h4 {
+    font-family: var(--tt-font-display);
+    font-size: 1.35rem;
+    line-height: 1.25;
+    margin: 0;
+}
+
+.tt-activity-row-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: .35rem;
+    font-size: .92rem;
+    color: var(--tt-text-muted);
+}
+
+.tt-activity-row-meta i {
+    color: var(--tt-accent);
+    margin-right: .25rem;
+}
+
+.tt-activity-row-price {
+    color: var(--tt-accent-dark);
+    font-weight: 600;
+}
+
+.tt-activity-row-desc {
+    color: var(--tt-text-muted);
+    line-height: 1.65;
+    margin: .85rem 0 0;
+}
+
+@media (max-width: 640px) {
+    .tt-activity-row { flex-direction: column; }
+    .tt-activity-row-img { width: 100%; height: 200px; }
+    .tt-activity-row-content { padding: 1.25rem 1.25rem 1.5rem; }
+}
+
+html[data-theme="dark"] .tt-activity-row {
+    background: linear-gradient(180deg, #1c1c22 0%, #15151a 100%) !important;
+    border-color: rgba(212, 160, 60, 0.18) !important;
+}
+
+html[data-theme="dark"] .tt-activity-row:hover {
+    border-color: rgba(212, 160, 60, .45) !important;
+}
+
+html[data-theme="dark"] .tt-activity-row-content h4 { color: #f5f5f5; }
+html[data-theme="dark"] .tt-activity-row-price { color: var(--tt-accent); }
+html[data-theme="dark"] .tt-activity-row-img { background: #20202a; }
+
+/* ---------- Amenity admin picker + public tile display ---------- */
+.gp-amenity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: .65rem;
+    margin-top: .35rem;
+}
+
+.gp-amenity-option {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    padding: .75rem .9rem;
+    border: 1px solid var(--tt-border);
+    border-radius: 10px;
+    cursor: pointer;
+    background: #fff;
+    transition: border-color .15s ease, background .15s ease, color .15s ease, transform .15s ease;
+    font-size: .92rem;
+    user-select: none;
+}
+.gp-amenity-option input[type="checkbox"] { display: none; }
+.gp-amenity-option i {
+    color: var(--tt-accent);
+    width: 20px;
+    text-align: center;
+}
+.gp-amenity-option:hover {
+    border-color: var(--tt-accent);
+    transform: translateY(-1px);
+}
+.gp-amenity-option.is-checked,
+.gp-amenity-option:has(input:checked) {
+    background: var(--tt-accent-light);
+    border-color: var(--tt-accent);
+    color: var(--tt-accent-dark);
+    font-weight: 600;
+}
+
+.gp-amenity-display {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: .85rem;
+}
+.gp-amenity-tile {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .9rem 1rem;
+    background: var(--tt-lighter);
+    border: 1px solid var(--tt-border);
+    border-radius: 12px;
+    font-size: .95rem;
+    transition: border-color .2s ease, transform .2s ease;
+}
+.gp-amenity-tile:hover {
+    border-color: var(--tt-accent);
+    transform: translateY(-2px);
+}
+.gp-amenity-tile i {
+    color: var(--tt-accent);
+    font-size: 1.25rem;
+    width: 24px;
+    text-align: center;
+}
+
+html[data-theme="dark"] .gp-amenity-option {
+    background: #1a1a20;
+    color: var(--tt-text);
+}
+html[data-theme="dark"] .gp-amenity-option.is-checked,
+html[data-theme="dark"] .gp-amenity-option:has(input:checked) {
+    background: rgba(212, 160, 60, .15);
+    border-color: var(--tt-accent);
+    color: var(--tt-accent);
+}
+html[data-theme="dark"] .gp-amenity-tile {
+    background: linear-gradient(180deg, #1c1c22 0%, #15151a 100%);
+    border-color: rgba(212, 160, 60, .18);
+}
+html[data-theme="dark"] .gp-amenity-tile:hover {
+    border-color: rgba(212, 160, 60, .5);
+}
+
+/* Activity tile (used inside package show page) */
+.gp-activity-tile-meta {
+    color: var(--tt-text) !important;
+    font-size: .85rem;
+}
+.gp-activity-tile-meta i {
+    color: var(--tt-accent);
+}
+html[data-theme="dark"] .gp-activity-tile-meta {
+    color: #f5f5f5 !important;
+}
+
+/* ---------- Blog cards: full-bleed top image ---------- */
+.tt-blog-card {
+    overflow: hidden;
+    border-radius: var(--tt-radius-lg);
+}
+
+.tt-blog-card-img {
+    width: 100% !important;
+    height: 240px !important;
+    overflow: hidden;
+    position: relative;
+    background: var(--tt-accent-light);
+    display: block;
+}
+
+.tt-blog-card-img img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    object-fit: cover !important;
+    transition: transform .6s cubic-bezier(.4, 0, .2, 1);
+}
+
+.tt-blog-card:hover .tt-blog-card-img img { transform: scale(1.05); }
+
+.tt-blog-card-img .badge-cat {
+    position: absolute;
+    top: .85rem;
+    left: .85rem;
+    background: var(--tt-accent);
+    color: #fff;
+    font-size: .7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    padding: .4rem 1rem;
+    border-radius: 999px;
+    z-index: 2;
+}
+
+.tt-blog-card-img .badge-read {
+    position: absolute;
+    top: .85rem;
+    right: .85rem;
+    background: rgba(0, 0, 0, .65);
+    color: #fff;
+    font-size: .72rem;
+    padding: .35rem .75rem;
+    border-radius: 999px;
+    z-index: 2;
+}
+
+/* Activity carousel polish */
+.gp-activity-carousel,
+.gp-activity-carousel .carousel-inner,
+.gp-activity-carousel .carousel-item {
+    height: 100%;
+    width: 100%;
+}
+
+.gp-activity-carousel .carousel-item img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block;
+}
+
+.gp-activity-carousel .carousel-control-prev,
+.gp-activity-carousel .carousel-control-next {
+    width: 38px;
+    opacity: 0;
+    transition: opacity .2s ease;
+}
+
+.tt-activity-row:hover .gp-activity-carousel .carousel-control-prev,
+.tt-activity-row:hover .gp-activity-carousel .carousel-control-next {
+    opacity: .85;
+}
+
+.gp-activity-carousel .carousel-control-prev-icon,
+.gp-activity-carousel .carousel-control-next-icon {
+    width: 1.2rem;
+    height: 1.2rem;
+    background-color: rgba(0, 0, 0, .45);
+    border-radius: 999px;
+    padding: 14px;
+    background-size: 1rem;
+}
+
+.gp-activity-indicators {
+    margin-bottom: .5rem;
+}
+
+.gp-activity-indicators [data-bs-target] {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background-color: rgba(255, 255, 255, .6);
+    border: none;
+    opacity: 1;
+    margin: 0 3px;
+}
+
+.gp-activity-indicators [data-bs-target].active {
+    background-color: var(--tt-accent);
+    width: 22px;
+}
+
+.tt-mission-card:hover .icon,
+.tt-feature-card:hover .icon,
+.tt-value-card:hover .icon {
+    background: var(--tt-accent);
+    color: #fff;
+    transform: rotate(-4deg) scale(1.05);
+}
+
+/* ---------- Destination/Tour/Stay cards ---------- */
+.tt-dest-card {
+    background: var(--tt-lighter);
+    border: 1px solid var(--tt-border);
+    border-radius: var(--tt-radius-lg);
+    overflow: hidden;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    box-shadow: var(--tt-shadow-sm);
+}
+
+.tt-dest-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--tt-shadow-lg);
+    border-color: rgba(212, 160, 60, .35);
+}
+
+.tt-dest-card-img {
+    width: 100% !important;
+    height: 260px !important;
+    overflow: hidden;
+    position: relative;
+    aspect-ratio: auto !important;
+    display: block;
+}
+
+.tt-dest-card-img img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    object-fit: cover !important;
+    transition: transform .6s cubic-bezier(.4, 0, .2, 1);
+}
+
+.tt-dest-card:hover .tt-dest-card-img img {
+    transform: scale(1.06);
+}
+
+.tt-dest-card-body {
+    padding: 1.85rem 1.85rem 2rem;
+}
+
+.tt-dest-card-body > * + * { margin-top: .75rem; }
+.tt-dest-card-body .tt-dest-card-footer { margin-top: 1.25rem; }
+
+.tt-dest-card-title {
+    font-family: var(--tt-font-display);
+    font-size: 1.35rem;
+    line-height: 1.25;
+    margin: .25rem 0 .6rem;
+}
+
+.tt-dest-card-title a {
+    color: var(--tt-dark);
+    text-decoration: none;
+}
+
+.tt-dest-card-title a:hover { color: var(--tt-accent-dark); }
+
+.tt-dest-card-desc {
+    color: var(--tt-text-muted);
+    font-size: .95rem;
+    line-height: 1.65;
+    margin-bottom: 1rem;
+}
+
+.tt-dest-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    color: var(--tt-text-muted);
+    font-size: .85rem;
+}
+
+.tt-dest-card-meta i {
+    color: var(--tt-accent);
+    margin-right: .35rem;
+}
+
+.tt-dest-card-link {
+    color: var(--tt-accent-dark);
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    transition: gap .2s ease, color .2s ease;
+}
+
+.tt-dest-card-link:hover { color: var(--tt-accent); gap: .7rem; }
+
+.tt-dest-card-body strong {
+    color: var(--tt-accent-dark);
+    font-family: var(--tt-font-display);
+    font-size: 1.05rem;
+}
+
+/* Card badge */
+.card-badge {
+    background: rgba(212, 160, 60, .95);
+    color: #fff;
+    padding: .35rem .8rem;
+    border-radius: 999px;
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .04em;
+    backdrop-filter: blur(4px);
+}
+
+/* ---------- Forms ---------- */
+.form-control,
+.form-select,
+.tt-input {
+    border-radius: 10px;
+    border-color: var(--tt-border);
+    padding: .7rem .95rem;
+    font-size: .98rem;
+    transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+}
+
+.form-control:focus,
+.form-select:focus,
+.tt-input:focus {
+    border-color: var(--tt-accent);
+    box-shadow: 0 0 0 3px rgba(212, 160, 60, .18);
+}
+
+.form-label {
+    font-weight: 500;
+    font-size: .92rem;
+    margin-bottom: .4rem;
+}
+
+/* ---------- Buttons ---------- */
+.btn-tt-primary,
+.btn-tt-accent,
+.btn-tt-white,
+.btn-tt-outline,
+.btn-tt-outline-white,
+.btn-admin-primary,
+.btn-admin-outline {
+    border-radius: 999px;
+    padding: .72rem 1.7rem;
+    font-weight: 600;
+    letter-spacing: .005em;
+    font-size: .95rem;
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease, border-color .18s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    text-decoration: none;
+    border: 1px solid transparent;
+}
+
+.btn-tt-primary,
+.btn-tt-accent,
+.btn-admin-primary {
+    background: var(--tt-accent);
+    color: #fff;
+}
+
+.btn-tt-primary:hover,
+.btn-tt-accent:hover,
+.btn-admin-primary:hover {
+    background: var(--tt-accent-dark);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 12px 24px -10px rgba(212, 160, 60, .6);
+}
+
+.btn-tt-outline,
+.btn-admin-outline {
+    background: transparent;
+    color: var(--tt-text);
+    border-color: var(--tt-border);
+}
+
+.btn-tt-outline:hover,
+.btn-admin-outline:hover {
+    border-color: var(--tt-accent);
+    color: var(--tt-accent);
+    transform: translateY(-1px);
+}
+
+.btn-sign-in {
+    background: var(--tt-dark);
+    color: #fff !important;
+    border-radius: 999px;
+    padding: .55rem 1.2rem;
+    font-weight: 600;
+    transition: background .2s ease;
+}
+
+.btn-sign-in:hover { background: var(--tt-accent); color: #fff !important; }
+
+/* ---------- Navbar ---------- */
+.tt-navbar {
+    transition: background .3s ease, box-shadow .3s ease, padding .3s ease;
+    padding: 1rem 0;
+}
+
+.tt-navbar.scrolled {
+    padding: .55rem 0;
+    background: rgba(255, 255, 255, .96) !important;
+    backdrop-filter: blur(14px);
+    box-shadow: 0 2px 24px rgba(0,0,0,.06);
+}
+
+.tt-navbar .nav-link {
+    position: relative;
+    padding: .5rem 0 !important;
+    margin: 0 .85rem;
+    font-weight: 500;
+    color: var(--tt-dark);
+}
+
+.tt-navbar .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 2px;
+    background: var(--tt-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .25s ease;
+}
+
+.tt-navbar .nav-link.active::after,
+.tt-navbar .nav-link:hover::after {
+    transform: scaleX(1);
+}
+
+/* ---------- Footer — always dark, both themes ---------- */
+.tt-footer {
+    padding: 4.5rem 0 2rem;
+    background: #08080a !important;
+    color: #d4d4d8;
+    border-top: 1px solid rgba(255, 255, 255, .06);
+}
+
+.tt-footer h5 {
+    font-family: var(--tt-font-display);
+    font-size: 1.15rem;
+    margin-bottom: 1.4rem;
+    color: #f5f5f5;
+}
+
+.tt-footer p { color: #a1a1aa; line-height: 1.75; }
+
+.tt-footer-link {
+    display: block;
+    padding: .35rem 0;
+    color: #a1a1aa;
+    font-size: .95rem;
+    transition: color .15s ease, padding-left .15s ease;
+}
+
+.tt-footer-link:hover {
+    color: var(--tt-accent);
+    padding-left: .35rem;
+}
+
+.tt-footer-bottom {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, .06);
+    font-size: .9rem;
+    color: #a1a1aa;
+}
+
+.tt-footer-bottom a { color: #a1a1aa; }
+.tt-footer-bottom a:hover { color: var(--tt-accent); }
+
+.social-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    background: rgba(212, 160, 60, .15);
+    color: var(--tt-accent);
+    margin-right: .5rem;
+    transition: background .2s ease, color .2s ease, transform .2s ease;
+}
+
+.social-icon:hover {
+    background: var(--tt-accent);
+    color: #08080a;
+    transform: translateY(-2px);
+}
+
+.contact-row {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    margin-bottom: .65rem;
+    color: #a1a1aa;
+}
+
+.contact-row i {
+    color: var(--tt-accent);
+    width: 18px;
+}
+
+/* ---------- Sidebar cards (detail pages) ---------- */
+.tt-sidebar-card {
+    background: var(--tt-lighter);
+    border: 1px solid var(--tt-border);
+    border-radius: var(--tt-radius-lg);
+    padding: 2rem;
+    box-shadow: var(--tt-shadow-sm);
+}
+
+.tt-sidebar-card h5 {
+    font-family: var(--tt-font-display);
+    font-size: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+.tt-detail-booking {
+    border: 1px solid var(--tt-border);
+    border-radius: var(--tt-radius-xl);
+    overflow: hidden;
+    background: var(--tt-lighter);
+}
+.tt-detail-booking h4 {
+    font-family: var(--tt-font-display);
+    font-size: 1.5rem;
+    margin-bottom: .75rem;
+}
+.tt-detail-booking-accent {
+    background: linear-gradient(135deg, var(--tt-accent) 0%, var(--tt-accent-dark) 100%);
+    color: #fff;
+}
+.tt-detail-booking-accent h5 { color: #fff; }
+
+/* ---------- Trust row (hero) ---------- */
+.tt-trust-item {
+    display: flex;
+    align-items: center;
+    gap: .85rem;
+}
+
+.tt-trust-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(212, 160, 60, .2);
+    color: var(--tt-accent);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tt-trust-value { font-weight: 700; }
+.tt-trust-label { font-size: .85rem; opacity: .85; }
+
+/* ---------- Selection + focus ---------- */
+::selection {
+    background: var(--tt-accent);
+    color: #fff;
+}
+
+*:focus-visible {
+    outline: 2px solid var(--tt-accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+/* ============================================
+   DARK MODE — universal card coverage
+   ============================================ */
+
+html[data-theme="dark"] .tt-mission-card,
+html[data-theme="dark"] .tt-feature-card,
+html[data-theme="dark"] .tt-value-card,
+html[data-theme="dark"] .tt-cat-card,
+html[data-theme="dark"] .tt-blog-card,
+html[data-theme="dark"] .tt-newsletter-inner {
+    background: linear-gradient(180deg, #1c1c22 0%, #15151a 100%) !important;
+    border: 1px solid rgba(212, 160, 60, 0.18) !important;
+    color: var(--tt-text) !important;
+}
+
+html[data-theme="dark"] .tt-mission-card:hover,
+html[data-theme="dark"] .tt-feature-card:hover,
+html[data-theme="dark"] .tt-value-card:hover,
+html[data-theme="dark"] .tt-cat-card:hover,
+html[data-theme="dark"] .tt-blog-card:hover {
+    border-color: rgba(212, 160, 60, .45) !important;
+    box-shadow: 0 14px 36px rgba(212, 160, 60, .12), 0 6px 14px rgba(0, 0, 0, .5);
+}
+
+html[data-theme="dark"] .tt-mission-card h3,
+html[data-theme="dark"] .tt-mission-card h4,
+html[data-theme="dark"] .tt-feature-card h3,
+html[data-theme="dark"] .tt-feature-card h4,
+html[data-theme="dark"] .tt-value-card h3,
+html[data-theme="dark"] .tt-value-card h4,
+html[data-theme="dark"] .tt-blog-card h3,
+html[data-theme="dark"] .tt-blog-card-title a,
+html[data-theme="dark"] .tt-cat-card h5,
+html[data-theme="dark"] .tt-feature-item h4 {
+    color: #f5f5f5 !important;
+}
+
+html[data-theme="dark"] .tt-mission-card p,
+html[data-theme="dark"] .tt-feature-card p,
+html[data-theme="dark"] .tt-value-card p,
+html[data-theme="dark"] .tt-blog-card-desc,
+html[data-theme="dark"] .tt-blog-card-meta,
+html[data-theme="dark"] .tt-cat-card .count,
+html[data-theme="dark"] .tt-feature-item p {
+    color: var(--tt-text-muted) !important;
+}
+
+html[data-theme="dark"] .tt-mission-card .icon,
+html[data-theme="dark"] .tt-feature-card .icon,
+html[data-theme="dark"] .tt-value-card .icon,
+html[data-theme="dark"] .tt-cat-card .icon,
+html[data-theme="dark"] .tt-feature-icon,
+html[data-theme="dark"] .tt-trust-icon {
+    background: rgba(212, 160, 60, .15) !important;
+    color: var(--tt-accent) !important;
+}
+
+html[data-theme="dark"] .tt-stats-banner {
+    background: linear-gradient(180deg, #0a0a0e 0%, #15151a 100%) !important;
+}
+
+html[data-theme="dark"] .form-control,
+html[data-theme="dark"] .form-select,
+html[data-theme="dark"] .tt-input {
+    background-color: #1c1c22 !important;
+    color: var(--tt-text) !important;
+    border-color: rgba(255, 255, 255, .08) !important;
+}
+
+html[data-theme="dark"] .form-control:focus,
+html[data-theme="dark"] .form-select:focus,
+html[data-theme="dark"] .tt-input:focus {
+    background-color: #20202a !important;
+    border-color: rgba(212, 160, 60, .5) !important;
+    box-shadow: 0 0 0 3px rgba(212, 160, 60, .22) !important;
+}
+
+html[data-theme="dark"] .form-control::placeholder,
+html[data-theme="dark"] .tt-input::placeholder {
+    color: rgba(255, 255, 255, .35);
+}
+
+html[data-theme="dark"] .form-label,
+html[data-theme="dark"] body {
+    color: var(--tt-text);
+}
+
+html[data-theme="dark"] .tt-navbar.scrolled {
+    background: rgba(15, 15, 18, .92) !important;
+}
+
+/* Footer is always dark — no theme-specific overrides needed */
+
+html[data-theme="dark"] .btn-sign-in {
+    background: var(--tt-accent);
+    color: #08080a !important;
+}
+
+html[data-theme="dark"] .btn-tt-outline,
+html[data-theme="dark"] .btn-admin-outline {
+    color: var(--tt-text);
+    border-color: rgba(255, 255, 255, .14);
+}
+
+html[data-theme="dark"] .btn-tt-outline:hover,
+html[data-theme="dark"] .btn-admin-outline:hover {
+    color: var(--tt-accent);
+    border-color: var(--tt-accent);
+}
+
+html[data-theme="dark"] .breadcrumb-item a,
+html[data-theme="dark"] .breadcrumb-item.active {
+    color: rgba(255, 255, 255, .85) !important;
+}
+
+html[data-theme="dark"] img {
+    filter: brightness(.94);
+}
+
+html[data-theme="dark"] hr {
+    border-color: rgba(255, 255, 255, .08);
+}
+
+/* Toggle button */
+.gp-theme-toggle {
+    background: transparent;
+    border: 1px solid var(--tt-border);
+    color: var(--tt-text);
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.gp-theme-toggle:hover {
+    background: rgba(212, 160, 60, 0.1);
+    border-color: var(--tt-accent);
+    color: var(--tt-accent);
+}
+.gp-theme-toggle .gp-icon-sun { display: none; }
+html[data-theme="dark"] .gp-theme-toggle .gp-icon-sun { display: inline; }
+html[data-theme="dark"] .gp-theme-toggle .gp-icon-moon { display: none; }
+
+/* ============================================================================
+   LIGHT MODE POLISH
+   Everything below only applies when [data-theme="dark"] is NOT set.
+   Goal: warmer surfaces, richer cards, stronger hierarchy, gold accent treatment.
+   ============================================================================ */
+html:not([data-theme="dark"]) {
+    --tt-text: #2d251a;          /* warmer near-black for body text */
+    --tt-text-muted: #74614a;    /* warm taupe instead of cool grey */
+    --tt-border: #ead9b3;        /* warm parchment border instead of cold grey */
+    --tt-light: #fbf3e1;
+    --tt-lighter: #fffaee;
+    --tt-shadow-sm: 0 1px 3px rgba(122, 82, 27, .08);
+    --tt-shadow:    0 6px 24px rgba(122, 82, 27, .10), 0 2px 6px rgba(122, 82, 27, .05);
+    --tt-shadow-lg: 0 18px 50px rgba(122, 82, 27, .14), 0 4px 12px rgba(122, 82, 27, .06);
+}
+
+/* Headings get a deeper warm-black so they pop on the cream wash.
+   Excluded: anything inside a dark surface (hero, footer, dark CTAs) — those
+   sit on a near-black background and need to stay white. */
+html:not([data-theme="dark"]) h1,
+html:not([data-theme="dark"]) h2,
+html:not([data-theme="dark"]) h3,
+html:not([data-theme="dark"]) h4,
+html:not([data-theme="dark"]) h5,
+html:not([data-theme="dark"]) h6 {
+    color: #1c160d;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, .35);
+}
+
+/* Restore white text on dark surfaces (hero image, sub-page hero, footer, dark CTAs). */
+html:not([data-theme="dark"]) .tt-hero h1,
+html:not([data-theme="dark"]) .tt-hero h2,
+html:not([data-theme="dark"]) .tt-hero h3,
+html:not([data-theme="dark"]) .tt-hero h4,
+html:not([data-theme="dark"]) .tt-hero-title,
+html:not([data-theme="dark"]) .tt-hero-text,
+html:not([data-theme="dark"]) .tt-hero-card h4,
+html:not([data-theme="dark"]) .tt-hero-card-body h4,
+html:not([data-theme="dark"]) .tt-page-hero h1,
+html:not([data-theme="dark"]) .tt-page-hero h2,
+html:not([data-theme="dark"]) .tt-page-hero h3,
+html:not([data-theme="dark"]) .tt-page-title,
+html:not([data-theme="dark"]) .tt-page-subtitle,
+html:not([data-theme="dark"]) .tt-footer h1,
+html:not([data-theme="dark"]) .tt-footer h2,
+html:not([data-theme="dark"]) .tt-footer h3,
+html:not([data-theme="dark"]) .tt-footer h4,
+html:not([data-theme="dark"]) .tt-footer h5,
+html:not([data-theme="dark"]) .tt-footer h6,
+html:not([data-theme="dark"]) .tt-footer .brand-accent,
+html:not([data-theme="dark"]) .bg-dark h1,
+html:not([data-theme="dark"]) .bg-dark h2,
+html:not([data-theme="dark"]) .bg-dark h3,
+html:not([data-theme="dark"]) .bg-dark h4,
+html:not([data-theme="dark"]) .bg-dark h5,
+html:not([data-theme="dark"]) .bg-dark h6 {
+    color: #fff;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, .45);
+}
+
+/* Hero title accent gold stays gold (light mode `.accent` gradient would
+   make it transparent inside the white headline — restore solid gold). */
+html:not([data-theme="dark"]) .tt-hero-title .accent,
+html:not([data-theme="dark"]) .tt-page-title .accent,
+html:not([data-theme="dark"]) .tt-footer .accent {
+    color: var(--tt-accent);
+    -webkit-text-fill-color: var(--tt-accent);
+    background: none;
+}
+
+/* Cards on a pure white page — subtle gradient + a clearly visible warm
+   shadow and gold-tinted border so each tile reads as a distinct surface
+   against the white. */
+html:not([data-theme="dark"]) .tt-dest-card,
+html:not([data-theme="dark"]) .tt-package-card,
+html:not([data-theme="dark"]) .tt-blog-card,
+html:not([data-theme="dark"]) .admin-card,
+html:not([data-theme="dark"]) .tt-card,
+html:not([data-theme="dark"]) .card {
+    background: linear-gradient(180deg, #ffffff 0%, #fdf6e3 100%);
+    border: 1px solid rgba(212, 160, 60, .28);
+    box-shadow: 0 6px 24px rgba(122, 82, 27, .08), 0 2px 6px rgba(122, 82, 27, .04);
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+html:not([data-theme="dark"]) .tt-dest-card:hover,
+html:not([data-theme="dark"]) .tt-package-card:hover,
+html:not([data-theme="dark"]) .tt-blog-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(122, 82, 27, .14), 0 4px 10px rgba(122, 82, 27, .06);
+    border-color: rgba(212, 160, 60, .55);
+}
+
+/* Gold accent bar at the top of every primary card to make them feel
+   intentional rather than generic */
+html:not([data-theme="dark"]) .tt-dest-card,
+html:not([data-theme="dark"]) .tt-package-card {
+    position: relative;
+    overflow: hidden;
+}
+html:not([data-theme="dark"]) .tt-dest-card::after,
+html:not([data-theme="dark"]) .tt-package-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #f3c779, #d4a03c, #8a5e1c);
+    opacity: 0;
+    transition: opacity .25s ease;
+    z-index: 4;
+}
+html:not([data-theme="dark"]) .tt-dest-card:hover::after,
+html:not([data-theme="dark"]) .tt-package-card:hover::after {
+    opacity: 1;
+}
+
+/* Primary CTA buttons get the gradient gold treatment */
+html:not([data-theme="dark"]) .btn-tt-primary,
+html:not([data-theme="dark"]) .btn-primary {
+    background: linear-gradient(135deg, #d4a03c, #b8872e);
+    border: 0;
+    color: #1a1208;
+    font-weight: 700;
+    box-shadow: 0 8px 20px rgba(184, 135, 46, .30);
+    transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+}
+html:not([data-theme="dark"]) .btn-tt-primary:hover,
+html:not([data-theme="dark"]) .btn-primary:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.06);
+    box-shadow: 0 12px 28px rgba(184, 135, 46, .40);
+    color: #1a1208;
+}
+
+/* Outline buttons get a warm border + hover fill */
+html:not([data-theme="dark"]) .btn-tt-outline {
+    background: transparent;
+    border: 1.5px solid rgba(212, 160, 60, .55);
+    color: #6b4914;
+    font-weight: 600;
+    transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+html:not([data-theme="dark"]) .btn-tt-outline:hover {
+    background: rgba(212, 160, 60, .12);
+    border-color: #d4a03c;
+    color: #4a3209;
+}
+
+/* Section heading accents — gold underline on the .accent span */
+html:not([data-theme="dark"]) .tt-pretitle {
+    display: inline-block;
+    color: #b8872e;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    font-size: .78rem;
+    padding-bottom: .25rem;
+    border-bottom: 2px solid rgba(212, 160, 60, .35);
+    margin-bottom: .5rem;
+}
+
+html:not([data-theme="dark"]) .accent {
+    /* Deeper gold range so the text reads cleanly on the cream background.
+       Was starting at #d4a03c which is too close to the body wash and the
+       first letters disappeared. */
+    background: linear-gradient(120deg, #8a5e1c 0%, #6b4914 55%, #4a3209 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+}
+
+/* Page heroes — warm charcoal base with a gold ambient glow and the
+   destination photo bleeding through. Replaces the previous cream wash
+   that flattened the image into a grey-to-cream gradient. */
+html:not([data-theme="dark"]) .tt-page-hero {
+    background:
+        radial-gradient(80% 60% at 20% 0%, rgba(212, 160, 60, .22), transparent 60%),
+        radial-gradient(60% 60% at 100% 100%, rgba(232, 162, 90, .18), transparent 60%),
+        linear-gradient(160deg, #2a1c10 0%, #1a1208 60%, #0c0c10 100%);
+}
+html:not([data-theme="dark"]) .tt-page-hero-bg {
+    opacity: .45;            /* photo more visible than the .25 default */
+    filter: saturate(1.1);
+}
+/* Lift the existing ::after gradient with a warmer tint so the photo
+   blends into the brand palette instead of cool navy. */
+html:not([data-theme="dark"]) .tt-page-hero::after {
+    background: linear-gradient(180deg, rgba(26, 18, 8, .55) 0%, rgba(12, 12, 16, .85) 100%);
+}
+
+/* Dark mode page hero — same treatment, deeper base */
+html[data-theme="dark"] .tt-page-hero {
+    background:
+        radial-gradient(80% 60% at 20% 0%, rgba(212, 160, 60, .18), transparent 60%),
+        linear-gradient(160deg, #1a1208 0%, #0c0c10 100%);
+}
+html[data-theme="dark"] .tt-page-hero-bg { opacity: .35; }
+html[data-theme="dark"] .tt-page-hero::after {
+    background: linear-gradient(180deg, rgba(12, 12, 16, .5) 0%, rgba(0, 0, 0, .85) 100%);
+}
+
+/* Forms — warmer inputs with subtle focus */
+html:not([data-theme="dark"]) .tt-input,
+html:not([data-theme="dark"]) .form-control {
+    background: #fffaee;
+    border: 1px solid #ead9b3;
+    color: #2d251a;
+    transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+}
+html:not([data-theme="dark"]) .tt-input:focus,
+html:not([data-theme="dark"]) .form-control:focus {
+    background: #fff;
+    border-color: #d4a03c;
+    box-shadow: 0 0 0 4px rgba(212, 160, 60, .15);
+    outline: none;
+}
+
+/* Footer warmth */
+html:not([data-theme="dark"]) .tt-footer {
+    background: linear-gradient(180deg, #f5e8c8 0%, #ead9b3 100%);
+    border-top: 1px solid rgba(212, 160, 60, .25);
+}
+
+/* Pretty scrollbar in light mode */
+html:not([data-theme="dark"]) ::-webkit-scrollbar-track { background: #f5e8c8; }
+html:not([data-theme="dark"]) ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #d4a03c, #b8872e);
+    border-radius: 4px;
+}
+
+/* ============================================================================
+   ACCORDION (FAQ) — dark mode overrides
+   The base theme uses hard-coded #fff backgrounds; flip them to dark surfaces
+   so the FAQ blends with the rest of the dark page.
+   ============================================================================ */
+html[data-theme="dark"] .tt-accordion .accordion-item {
+    background: #16161c;
+    border: 1px solid rgba(212, 160, 60, .18);
+}
+html[data-theme="dark"] .tt-accordion .accordion-button {
+    background: #16161c;
+    color: #f3eadb;
+}
+html[data-theme="dark"] .tt-accordion .accordion-button:hover {
+    color: #f3c779;
+}
+/* Expanded question — warm charcoal panel with a clear gold title. */
+html[data-theme="dark"] .tt-accordion .accordion-button:not(.collapsed) {
+    background: linear-gradient(180deg, rgba(212, 160, 60, .14), rgba(212, 160, 60, .06));
+    color: #f3c779;
+    border-bottom: 1px solid rgba(212, 160, 60, .25);
+}
+html[data-theme="dark"] .tt-accordion .accordion-button::after {
+    color: rgba(251, 243, 225, .55);
+}
+html[data-theme="dark"] .tt-accordion .accordion-button:not(.collapsed)::after {
+    color: #f3c779;
+}
+html[data-theme="dark"] .tt-accordion .accordion-body {
+    background: #14141a;
+    color: #d4d4d8;
+}
+html[data-theme="dark"] .tt-accordion .accordion-collapse {
+    background: #14141a;
+}

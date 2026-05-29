@@ -1,0 +1,60 @@
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
+.env
+.env.backup
+.env.*
+!.env.example
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+/theme
+composer.lock
+instructions.md
+RAILWAY_TROUBLESHOOTING.md
+RAILWAY_MYSQL_FIX.md
+RAILWAY_DEPLOY.md
+PULL_REQUEST_TEMPLATE.md
+
+# One-off server scripts (run once via browser, meant to self-delete).
+# Kept locally so we can re-upload them when needed, but never committed
+# because anyone with the URL could otherwise run them on production.
+/public/_setup.php
+/public/install.php
+/public/clear.php
+/public/migrate.php
+/public/compress-images.php
+/public/fix-price-columns.php
+
+# Editor & OS junk
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Logs
+/storage/logs/*.log
+laravel.log
+
+# Local databases / dump files
+*.sqlite
+*.sqlite-journal
+*.sql
+*.dump
+
+# Build artifacts
+/public/build
+/public/mix-manifest.json
+/public/css/*.map
+/public/js/*.map
+
+# Deployment zips — large, regenerable from source
+/deploy/*.zip
+/deploy/*.tar.gz

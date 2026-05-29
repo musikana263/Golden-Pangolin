@@ -1,0 +1,1464 @@
+/* ============================================
+   ADMIN DASHBOARD THEME
+   Golden Pangolin — Admin Panel (matches public brand)
+   ============================================ */
+
+/* ---------- Variables ----------
+   Pure-white page with subtly bordered cards. Sidebar + topbar stay
+   branded dark for orientation. Cards lift off the page via thin gold
+   borders + soft warm shadows rather than a different fill colour. */
+:root {
+    --admin-primary: #d4a03c;
+    --admin-primary-hover: #b8872e;
+    --admin-primary-light: #fdf5e6;
+    --admin-secondary: #1a1208;
+    --admin-sidebar: #15110a;
+    --admin-sidebar-hover: #221a0e;
+    --admin-accent: #d4a03c;
+    --admin-accent-hover: #b8872e;
+    --admin-warning: #f59e0b;
+    --admin-danger: #d9534f;
+    --admin-info: #3b82f6;
+    --admin-bg: #ffffff;             /* pure white page */
+    --admin-card: #ffffff;           /* same — separation comes from border + shadow */
+    --admin-card-header: #fdf6e3;    /* faint warm cream strip inside cards */
+    --admin-text: #1f1a14;
+    --admin-text-muted: #6b6357;
+    --admin-border: #ecd9a8;         /* warm gold-tinted border so cards feel on-brand */
+    --admin-radius: 12px;
+    --admin-radius-sm: 8px;
+    --admin-shadow: 0 1px 3px rgba(122, 82, 27, .08), 0 1px 2px rgba(0, 0, 0, .04);
+    --admin-shadow-md: 0 4px 14px rgba(122, 82, 27, .10), 0 2px 4px rgba(0, 0, 0, .04);
+    --admin-shadow-lg: 0 12px 32px rgba(122, 82, 27, .14), 0 4px 8px rgba(0, 0, 0, .06);
+    --admin-transition: all .2s ease;
+    --admin-font-display: 'Playfair Display', Georgia, serif;
+}
+
+/* Admin is always dark — overrides flip the palette to charcoal + gold.
+   Surfaces are deliberately layered: page is the darkest, cards lift a step,
+   card headers and stat cards lift one more. Gives a sense of elevation
+   without going stark white. */
+html[data-theme="dark"] {
+    --admin-primary-light: #2a221a;
+    --admin-secondary: #f5f5f5;
+    --admin-sidebar: #15151c;
+    --admin-sidebar-hover: #22222c;
+    --admin-bg: #111118;
+    --admin-card: #1f1f28;
+    --admin-card-header: #262630;
+    --admin-text: #ececf0;
+    --admin-text-muted: #b8b8c0;
+    --admin-border: #34343f;
+    --admin-shadow: 0 1px 3px rgba(0, 0, 0, .45), 0 1px 2px rgba(0, 0, 0, .35);
+    --admin-shadow-md: 0 4px 12px rgba(0, 0, 0, .45), 0 2px 4px rgba(0, 0, 0, .35);
+    --admin-shadow-lg: 0 10px 28px rgba(0, 0, 0, .55), 0 4px 6px rgba(0, 0, 0, .35);
+}
+html[data-theme="dark"] body.admin-body { color: var(--admin-text); }
+html[data-theme="dark"] .admin-card,
+html[data-theme="dark"] .admin-topbar {
+    background: var(--admin-card);
+    border-color: rgba(212, 160, 60, .18);
+}
+html[data-theme="dark"] .admin-card-body { color: var(--admin-text); }
+
+/* Card header — kill the hardcoded white. Uses a slightly lighter shade than
+   the card body so the section title reads as a distinct band. */
+html[data-theme="dark"] .admin-card-header {
+    background: var(--admin-card-header);
+    border-bottom-color: rgba(212, 160, 60, .15);
+    color: var(--admin-text);
+}
+html[data-theme="dark"] .admin-card-header h5 { color: #fbf3e1; }
+
+/* Stat cards (dashboard tiles) — gently raise contrast with a subtle gradient
+   so the tiles feel like they sit on the page, not blend into it. */
+html[data-theme="dark"] .admin-stat {
+    background: linear-gradient(180deg, #25252f 0%, #1c1c25 100%);
+    border: 1px solid rgba(212, 160, 60, .18);
+}
+html[data-theme="dark"] .admin-stat:hover {
+    border-color: rgba(212, 160, 60, .35);
+}
+
+/* Sidebar — keep the brand-dark even in dark mode, but with gold dividers. */
+html[data-theme="dark"] .admin-sidebar {
+    background: #0a0a0e;
+    border: 1px solid rgba(212, 160, 60, .12);
+}
+html[data-theme="dark"] .admin-nav-item {
+    color: rgba(251, 243, 225, .75);
+}
+html[data-theme="dark"] .admin-nav-item:hover {
+    background: rgba(212, 160, 60, .12);
+    color: #f3c779;
+}
+html[data-theme="dark"] .admin-nav-item.active {
+    background: linear-gradient(135deg, rgba(212, 160, 60, .22), rgba(212, 160, 60, .10));
+    color: #f3c779;
+}
+html[data-theme="dark"] .admin-nav-section,
+html[data-theme="dark"] .admin-sidebar small {
+    color: rgba(251, 243, 225, .45);
+}
+
+/* Tables — readable rows on dark surfaces */
+html[data-theme="dark"] .admin-table,
+html[data-theme="dark"] body.admin-body table {
+    color: var(--admin-text);
+}
+html[data-theme="dark"] body.admin-body table thead th,
+html[data-theme="dark"] .admin-table thead {
+    background: rgba(212, 160, 60, .08);
+    color: #fbf3e1;
+    border-color: rgba(212, 160, 60, .25);
+}
+html[data-theme="dark"] body.admin-body table tbody tr {
+    border-color: rgba(212, 160, 60, .10);
+}
+html[data-theme="dark"] body.admin-body table tbody tr:hover {
+    background: rgba(212, 160, 60, .06);
+}
+html[data-theme="dark"] body.admin-body .text-muted,
+html[data-theme="dark"] body.admin-body small.text-muted {
+    color: var(--admin-text-muted) !important;
+}
+html[data-theme="dark"] body.admin-body table strong { color: #fbf3e1; }
+
+/* Bootstrap outline buttons — fix the washed-out grey on dark */
+html[data-theme="dark"] body.admin-body .btn-outline-secondary {
+    color: rgba(251, 243, 225, .75);
+    border-color: rgba(212, 160, 60, .35);
+}
+html[data-theme="dark"] body.admin-body .btn-outline-secondary:hover {
+    background: rgba(212, 160, 60, .15);
+    color: #f3c779;
+    border-color: var(--admin-primary);
+}
+html[data-theme="dark"] body.admin-body .btn-outline-danger {
+    color: #f08c89;
+    border-color: rgba(217, 83, 79, .45);
+}
+html[data-theme="dark"] body.admin-body .btn-outline-danger:hover {
+    background: rgba(217, 83, 79, .15);
+    color: #f5a5a3;
+    border-color: #d9534f;
+}
+
+/* New Type / primary action button — already gold via --admin-primary, just
+   ensure text contrast stays right against the gold fill. */
+html[data-theme="dark"] body.admin-body .btn-admin-primary { color: #1a1208 !important; }
+html[data-theme="dark"] .form-control,
+html[data-theme="dark"] .form-select {
+    background-color: #0f0f14;
+    border-color: var(--admin-border);
+    color: var(--admin-text);
+}
+html[data-theme="dark"] .form-control:focus,
+html[data-theme="dark"] .form-select:focus {
+    background-color: #14141a;
+    border-color: var(--admin-primary);
+    color: var(--admin-text);
+    box-shadow: 0 0 0 .15rem rgba(212, 160, 60, .15);
+}
+html[data-theme="dark"] .input-group-text {
+    background: #0f0f14;
+    border-color: var(--admin-border);
+    color: var(--admin-text-muted);
+}
+html[data-theme="dark"] .form-label { color: var(--admin-text); }
+html[data-theme="dark"] .form-text { color: var(--admin-text-muted); }
+
+/* ---------- Base ---------- */
+body.admin-body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--admin-bg);
+    color: var(--admin-text);
+    min-height: 100vh;
+}
+
+body.admin-body h1,
+body.admin-body h2,
+body.admin-body h3,
+body.admin-body h4,
+body.admin-body h5,
+body.admin-body h6 {
+    font-family: var(--admin-font-display);
+    color: var(--admin-secondary);
+    text-shadow: none;
+    font-weight: 700;
+}
+/* Top-of-page section titles ("Users", "Destinations", etc.) — give them
+   real presence with a deeper warm-black and a hint of letter-spacing. */
+body.admin-body > .d-flex > h5,
+body.admin-body .admin-card-header h5 {
+    font-size: 1.05rem;
+    color: #1a1208;
+    letter-spacing: -.005em;
+}
+
+/* Admin is always rendered dark (the layout hard-codes data-theme="dark").
+   Slightly warmer charcoal page bg so it doesn't read as flat-black, with a
+   subtle gold glow at the top to mirror the public site. */
+html[data-theme="dark"] body.admin-body {
+    background:
+        radial-gradient(80% 50% at 50% -10%, rgba(212, 160, 60, .12), transparent 70%),
+        linear-gradient(180deg, #111118 0%, #1a1612 100%);
+    background-attachment: fixed;
+}
+html[data-theme="dark"] body.admin-body h1,
+html[data-theme="dark"] body.admin-body h2,
+html[data-theme="dark"] body.admin-body h3,
+html[data-theme="dark"] body.admin-body h4,
+html[data-theme="dark"] body.admin-body h5,
+html[data-theme="dark"] body.admin-body h6 {
+    color: #fbf3e1;
+    text-shadow: none;
+}
+
+/* Bootstrap's <code> defaults to hot-pink. Re-tone to brand gold so inline
+   class names (e.g. `fas fa-hotel`) sit politely on the page. */
+body.admin-body code {
+    color: var(--admin-primary);
+    background: rgba(212, 160, 60, .10);
+    padding: .15em .5em;
+    border-radius: 6px;
+    font-size: .85em;
+}
+html[data-theme="dark"] body.admin-body code {
+    color: #f3c779;
+    background: rgba(212, 160, 60, .14);
+}
+
+body.admin-body a:not([class*="btn-"]):not(.admin-nav-item):not(.navbar-brand):not(.dropdown-item) {
+    color: var(--admin-primary);
+}
+body.admin-body a:not([class*="btn-"]):not(.admin-nav-item):not(.navbar-brand):not(.dropdown-item):hover {
+    color: var(--admin-primary-hover);
+}
+
+/* Buttons styled as anchors should keep their own text color */
+body.admin-body .btn-admin-primary,
+body.admin-body .btn-admin-primary:hover,
+body.admin-body .btn-admin-accent,
+body.admin-body .btn-admin-accent:hover,
+body.admin-body .btn-admin-sm,
+body.admin-body a.btn-admin-primary,
+body.admin-body a.btn-admin-accent {
+    color: #fff !important;
+}
+
+body.admin-body .btn-admin-outline,
+body.admin-body a.btn-admin-outline {
+    color: var(--admin-primary);
+}
+body.admin-body .btn-admin-outline:hover,
+body.admin-body a.btn-admin-outline:hover {
+    color: #fff;
+}
+
+
+/* ============================================
+   TOPBAR
+   ============================================ */
+/* Light topbar — sits cleanly on the white admin page with a subtle gold
+   bottom border + soft shadow for separation. */
+.admin-topbar {
+    background: #ffffff;
+    border-bottom: 1px solid rgba(212, 160, 60, .35);
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    box-shadow: 0 2px 10px rgba(122, 82, 27, .08);
+}
+
+.admin-topbar .navbar-brand {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--admin-secondary);
+    gap: .5rem;
+}
+
+.admin-topbar .nav-link { color: var(--admin-text-muted); }
+.admin-topbar .nav-link:hover { color: var(--admin-primary); }
+.admin-topbar .dropdown-menu {
+    background: #ffffff;
+    border: 1px solid var(--admin-border);
+    box-shadow: var(--admin-shadow-md);
+}
+.admin-topbar .dropdown-item { color: var(--admin-text); }
+.admin-topbar .dropdown-item:hover {
+    background: rgba(212, 160, 60, .12);
+    color: var(--admin-primary);
+}
+
+.admin-topbar .navbar-brand .brand-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--admin-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.admin-topbar .navbar-brand .brand-accent {
+    color: var(--admin-primary);
+}
+
+.admin-topbar .nav-link {
+    color: var(--admin-text-muted);
+    font-weight: 500;
+    font-size: .9rem;
+}
+
+.admin-topbar .nav-link:hover {
+    color: var(--admin-primary);
+}
+
+.admin-topbar .dropdown-menu {
+    border: 1px solid var(--admin-border);
+    box-shadow: var(--admin-shadow-lg);
+    border-radius: var(--admin-radius);
+    padding: .5rem;
+}
+
+.admin-topbar .dropdown-item {
+    border-radius: var(--admin-radius-sm);
+    font-size: .9rem;
+    padding: .5rem .75rem;
+}
+
+.admin-topbar .dropdown-item:hover {
+    background: var(--admin-primary-light);
+    color: var(--admin-primary);
+}
+
+.admin-user-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: var(--admin-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: .85rem;
+}
+
+
+/* ============================================
+   SIDEBAR
+   ============================================ */
+.admin-sidebar {
+    background: var(--admin-sidebar);
+    border-radius: var(--admin-radius);
+    padding: 1.5rem 1rem;
+    position: sticky;
+    top: 80px;
+    min-height: calc(100vh - 96px);
+}
+
+.admin-sidebar-header {
+    text-align: center;
+    padding-bottom: 1.25rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, .1);
+}
+
+.admin-sidebar-header .icon-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    background: var(--admin-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.2rem;
+    margin-bottom: .75rem;
+}
+
+.admin-sidebar-header h6 {
+    color: #fff;
+    font-weight: 600;
+    margin-bottom: .15rem;
+}
+
+.admin-sidebar-header small {
+    color: rgba(255, 255, 255, .5);
+    font-size: .78rem;
+}
+
+.admin-sidebar-label {
+    font-size: .7rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: rgba(255, 255, 255, .35);
+    font-weight: 600;
+    padding: .75rem .75rem .4rem;
+}
+
+.admin-nav-item {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .65rem .75rem;
+    border-radius: var(--admin-radius-sm);
+    color: rgba(255, 255, 255, .7);
+    text-decoration: none;
+    font-size: .875rem;
+    font-weight: 500;
+    transition: var(--admin-transition);
+    margin-bottom: 2px;
+}
+
+.admin-nav-item i {
+    width: 20px;
+    text-align: center;
+    font-size: .85rem;
+}
+
+.admin-nav-item:hover,
+.admin-nav-item.active {
+    background: var(--admin-sidebar-hover);
+    color: #fff;
+}
+
+.admin-nav-item.active {
+    background: var(--admin-primary);
+}
+
+.admin-nav-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, .08);
+    margin: .75rem 0;
+}
+
+
+/* ============================================
+   CONTENT AREA
+   ============================================ */
+.admin-content {
+    padding: 1.5rem 0;
+}
+
+
+/* ============================================
+   CARDS
+   ============================================ */
+.admin-card {
+    background: var(--admin-card);
+    border-radius: var(--admin-radius);
+    border: 1px solid var(--admin-border);
+    /* Subtle warm shadow so cards sit visibly on the white page without
+       looking like floating boxes. */
+    box-shadow: var(--admin-shadow);
+    transition: box-shadow var(--admin-transition), border-color var(--admin-transition);
+}
+.admin-card:hover {
+    box-shadow: var(--admin-shadow-md);
+    border-color: rgba(212, 160, 60, .45);
+}
+
+.admin-card .admin-card-header {
+    border-top-left-radius: var(--admin-radius);
+    border-top-right-radius: var(--admin-radius);
+}
+
+.admin-card-header {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--admin-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--admin-card-header);
+}
+
+.admin-card-header h5 {
+    font-size: .95rem;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.admin-card-header h5 i {
+    color: var(--admin-primary);
+}
+
+.admin-card-body {
+    padding: 1.25rem;
+}
+
+
+/* ============================================
+   STAT CARDS (Dashboard)
+   ============================================ */
+.admin-stat-card {
+    /* Subtle cream tint so the stat tiles read as distinct surfaces against
+       the pure white page bg. */
+    background: linear-gradient(180deg, #ffffff 0%, #fdf6e3 100%);
+    border-radius: var(--admin-radius);
+    border: 1px solid var(--admin-border);
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    transition: var(--admin-transition);
+    box-shadow: var(--admin-shadow);
+    position: relative;
+    overflow: hidden;
+}
+/* Thin gold accent strip across the top of each stat tile. */
+.admin-stat-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #f3c779, #d4a03c, #8a5e1c);
+    opacity: .35;
+    transition: opacity var(--admin-transition);
+}
+
+.admin-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--admin-shadow-md);
+    border-color: rgba(212, 160, 60, .55);
+}
+.admin-stat-card:hover::before { opacity: 1; }
+
+.admin-stat-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.05rem;
+    flex-shrink: 0;
+}
+
+.admin-stat-icon.purple {
+    background: var(--admin-primary-light);
+    color: var(--admin-primary);
+}
+
+.admin-stat-icon.green {
+    background: #fdf5e6;
+    color: var(--admin-accent);
+}
+
+.admin-stat-icon.blue {
+    background: #eff6ff;
+    color: var(--admin-info);
+}
+
+.admin-stat-icon.amber {
+    background: #fffbeb;
+    color: var(--admin-warning);
+}
+
+.admin-stat-icon.rose {
+    background: #fff1f2;
+    color: #f43f5e;
+}
+
+.admin-stat-icon.cyan {
+    background: #ecfeff;
+    color: #06b6d4;
+}
+
+.admin-stat-info {
+    min-width: 0;
+    flex: 1;
+}
+
+.admin-stat-info h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1;
+}
+
+.admin-stat-info small {
+    color: var(--admin-text-muted);
+    font-size: .78rem;
+    font-weight: 500;
+    display: block;
+    /* Tiles can be narrow on small viewports — let long labels like
+       "Accommodation" stay on one line by allowing word breaks if needed,
+       and prevent the layout from stretching to fit the longest label. */
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    line-height: 1.25;
+}
+
+
+/* ============================================
+   WELCOME BANNER
+   ============================================ */
+.admin-welcome {
+    background: linear-gradient(135deg, #d4a03c 0%, #0e0e0e 100%);
+    border-radius: var(--admin-radius);
+    padding: 1.75rem 2rem;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+.admin-welcome::after {
+    content: '';
+    position: absolute;
+    right: -30px;
+    top: -30px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .08);
+}
+
+.admin-welcome h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: .35rem;
+}
+
+.admin-welcome p {
+    opacity: .85;
+    margin: 0;
+    font-size: .9rem;
+}
+
+.admin-welcome .date-badge {
+    background: rgba(255, 255, 255, .15);
+    border-radius: var(--admin-radius-sm);
+    padding: .5rem .75rem;
+    font-size: .8rem;
+    backdrop-filter: blur(8px);
+}
+
+
+/* ============================================
+   QUICK ACTIONS
+   ============================================ */
+.admin-quick-btn {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    padding: .6rem .85rem;
+    border-radius: var(--admin-radius-sm);
+    border: 1px solid var(--admin-border);
+    background: #fff;
+    color: var(--admin-text);
+    text-decoration: none;
+    font-size: .85rem;
+    font-weight: 500;
+    transition: var(--admin-transition);
+}
+
+.admin-quick-btn:hover {
+    border-color: var(--admin-primary);
+    color: var(--admin-primary);
+    background: var(--admin-primary-light);
+}
+
+.admin-quick-btn i {
+    font-size: .8rem;
+}
+
+
+/* ============================================
+   RECENT ITEMS (Dashboard)
+   ============================================ */
+.admin-recent-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .65rem 0;
+    border-bottom: 1px solid var(--admin-border);
+}
+
+.admin-recent-item:last-child {
+    border-bottom: 0;
+}
+
+.admin-recent-item h6 {
+    font-size: .85rem;
+    font-weight: 600;
+    margin: 0 0 .15rem;
+}
+
+.admin-recent-item small {
+    color: var(--admin-text-muted);
+    font-size: .75rem;
+}
+
+.admin-activity-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .95rem;
+    flex-shrink: 0;
+    color: #fff;
+}
+
+.admin-activity-icon.dest {
+    background: linear-gradient(135deg, #d4a03c, #b8872e);
+    box-shadow: 0 4px 10px rgba(184, 135, 46, .35);
+}
+
+.admin-activity-icon.blog {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    box-shadow: 0 4px 10px rgba(37, 99, 235, .35);
+}
+
+/* "X updates" count chip in the card header */
+.admin-activity-count {
+    font-size: .72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--admin-primary);
+    background: rgba(212, 160, 60, .15);
+    padding: .3rem .65rem;
+    border-radius: 999px;
+}
+
+/* Activity list — each entry is a clickable row with a clean separator */
+.admin-activity-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.admin-activity-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--admin-border);
+    transition: background var(--admin-transition);
+}
+.admin-activity-row:last-child { border-bottom: 0; }
+.admin-activity-row:hover { background: rgba(212, 160, 60, .08); }
+
+.admin-activity-body { flex: 1 1 auto; min-width: 0; }
+.admin-activity-title {
+    font-weight: 600;
+    color: var(--admin-text);
+    font-size: .95rem;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.admin-activity-meta {
+    font-size: .78rem;
+    color: var(--admin-text-muted);
+    margin-top: 2px;
+}
+
+.admin-activity-cta {
+    display: inline-flex;
+    align-items: center;
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--admin-primary);
+    background: rgba(212, 160, 60, .1);
+    border: 1px solid rgba(212, 160, 60, .35);
+    padding: .35rem .75rem;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background var(--admin-transition), color var(--admin-transition);
+    flex-shrink: 0;
+}
+.admin-activity-cta:hover {
+    background: var(--admin-primary);
+    color: #fff;
+    border-color: var(--admin-primary);
+}
+
+@media (max-width: 575.98px) {
+    .admin-activity-row { padding: 12px 14px; gap: 10px; }
+    .admin-activity-icon { width: 36px; height: 36px; }
+    .admin-activity-cta { padding: .3rem .55rem; }
+}
+
+
+/* ============================================
+   TABLES
+   ============================================ */
+.admin-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.admin-table thead th {
+    background: var(--admin-card-header);
+    font-size: .8rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-weight: 800;
+    color: #4a3209;
+    padding: .9rem 1rem;
+    border-bottom: 2px solid var(--admin-primary);
+    white-space: nowrap;
+}
+
+.admin-table tbody td {
+    padding: .75rem 1rem;
+    border-bottom: 1px solid var(--admin-border);
+    font-size: .875rem;
+    vertical-align: middle;
+}
+
+.admin-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.admin-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.admin-table .img-thumb {
+    width: 64px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.admin-table .badge-cat {
+    display: inline-block;
+    padding: .25rem .6rem;
+    border-radius: 6px;
+    font-size: .75rem;
+    font-weight: 500;
+    background: var(--admin-primary-light);
+    color: var(--admin-primary);
+    text-decoration: none;
+}
+
+.admin-table .badge-cat:hover {
+    background: var(--admin-primary);
+    color: #fff;
+}
+
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+.btn-admin-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    background: var(--admin-primary);
+    color: #fff;
+    border: none;
+    padding: .5rem 1rem;
+    border-radius: var(--admin-radius-sm);
+    font-size: .85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--admin-transition);
+    text-decoration: none;
+}
+
+.btn-admin-primary:hover {
+    background: var(--admin-primary-hover);
+    color: #fff;
+}
+
+.btn-admin-accent {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    background: var(--admin-accent);
+    color: #fff;
+    border: none;
+    padding: .5rem 1rem;
+    border-radius: var(--admin-radius-sm);
+    font-size: .85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--admin-transition);
+    text-decoration: none;
+}
+
+.btn-admin-accent:hover {
+    background: var(--admin-accent-hover);
+    color: #fff;
+}
+
+.btn-admin-sm {
+    padding: .35rem .65rem;
+    font-size: .78rem;
+    border-radius: 6px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: var(--admin-transition);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+}
+
+/* Action buttons — solid coloured fills with white icons. Clear and
+   unmissable on cream cards. */
+.btn-admin-edit {
+    background: #2563eb;
+    color: #fff;
+    border: 1px solid #1d4ed8;
+    box-shadow: 0 2px 4px rgba(37, 99, 235, .25);
+}
+.btn-admin-edit:hover {
+    background: #1d4ed8;
+    color: #fff;
+    border-color: #1e40af;
+    transform: translateY(-1px);
+}
+
+.btn-admin-delete {
+    background: #b91c1c;
+    color: #fff;
+    border: 1px solid #991b1b;
+    box-shadow: 0 2px 4px rgba(185, 28, 28, .25);
+}
+.btn-admin-delete:hover {
+    background: #991b1b;
+    color: #fff;
+    border-color: #7f1d1d;
+    transform: translateY(-1px);
+}
+
+.btn-admin-restore {
+    background: #b8872e;
+    color: #fff;
+    border: 1px solid #8a5e1c;
+    box-shadow: 0 2px 4px rgba(184, 135, 46, .25);
+}
+.btn-admin-restore:hover {
+    background: #8a5e1c;
+    color: #fff;
+    border-color: #6b4914;
+    transform: translateY(-1px);
+}
+
+.btn-admin-warn {
+    background: #fffbeb;
+    color: var(--admin-warning);
+}
+
+.btn-admin-warn:hover {
+    background: var(--admin-warning);
+    color: #fff;
+}
+
+.btn-admin-outline {
+    background: transparent;
+    border: 1px solid var(--admin-border);
+    color: var(--admin-text-muted);
+    padding: .5rem 1rem;
+    border-radius: var(--admin-radius-sm);
+    font-size: .85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--admin-transition);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+}
+
+.btn-admin-outline:hover {
+    border-color: var(--admin-primary);
+    color: var(--admin-primary);
+}
+
+
+/* ============================================
+   FORMS
+   ============================================ */
+.admin-form .form-label {
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--admin-text);
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    margin-bottom: .4rem;
+}
+
+.admin-form .form-control,
+.admin-form .form-select {
+    border: 1px solid var(--admin-border);
+    border-radius: var(--admin-radius-sm);
+    padding: .6rem .85rem;
+    font-size: .875rem;
+    transition: var(--admin-transition);
+}
+
+.admin-form .form-control:focus,
+.admin-form .form-select:focus {
+    border-color: var(--admin-primary);
+    box-shadow: 0 0 0 3px rgba(27, 110, 79, .12);
+}
+
+.admin-form .form-control.is-invalid {
+    border-color: var(--admin-danger);
+}
+
+.admin-form .form-text {
+    font-size: .78rem;
+    color: var(--admin-text-muted);
+}
+
+.admin-form .img-preview {
+    border-radius: var(--admin-radius);
+    border: 1px solid var(--admin-border);
+    max-height: 200px;
+    object-fit: cover;
+}
+
+
+/* ============================================
+   DELETE MODAL
+   ============================================ */
+.admin-modal .modal-content {
+    border: none;
+    border-radius: var(--admin-radius);
+    box-shadow: var(--admin-shadow-lg);
+}
+
+.admin-modal .modal-header {
+    border-bottom: 1px solid var(--admin-border);
+    padding: 1rem 1.25rem;
+}
+
+.admin-modal .modal-title {
+    font-size: .95rem;
+    font-weight: 600;
+}
+
+.admin-modal .modal-body {
+    padding: 1.5rem 1.25rem;
+    text-align: center;
+}
+
+.admin-modal .modal-body .icon-warn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #fef2f2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--admin-danger);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.admin-modal .modal-footer {
+    border-top: 1px solid var(--admin-border);
+    padding: .75rem 1.25rem;
+}
+
+
+/* ============================================
+   ALERTS
+   ============================================ */
+.admin-alert {
+    border: none;
+    border-radius: var(--admin-radius-sm);
+    font-size: .875rem;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.admin-alert-success {
+    background: var(--admin-primary-light);
+    color: #065f46;
+    border-left: 4px solid var(--admin-primary);
+}
+
+.admin-alert-danger {
+    background: #fef2f2;
+    color: #991b1b;
+    border-left: 4px solid var(--admin-danger);
+}
+
+
+/* ============================================
+   EMPTY STATE
+   ============================================ */
+.admin-empty {
+    text-align: center;
+    padding: 3rem 1rem;
+}
+
+.admin-empty i {
+    font-size: 2.5rem;
+    color: var(--admin-border);
+    margin-bottom: 1rem;
+}
+
+.admin-empty h5 {
+    color: var(--admin-text-muted);
+    font-size: 1rem;
+    margin-bottom: .35rem;
+}
+
+.admin-empty p {
+    color: var(--admin-text-muted);
+    font-size: .85rem;
+    margin: 0;
+}
+
+
+/* ============================================
+   USER AVATAR (tables)
+   ============================================ */
+.admin-user-thumb {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--admin-border);
+}
+
+
+/* ============================================
+   TRIX EDITOR OVERRIDES
+   ============================================ */
+trix-toolbar {
+    border-radius: var(--admin-radius-sm) var(--admin-radius-sm) 0 0;
+    border: 1px solid var(--admin-border);
+    border-bottom: none;
+}
+
+trix-editor {
+    border: 1px solid var(--admin-border) !important;
+    border-radius: 0 0 var(--admin-radius-sm) var(--admin-radius-sm) !important;
+    min-height: 180px;
+    font-size: .875rem;
+}
+
+trix-editor:focus {
+    border-color: var(--admin-primary) !important;
+    box-shadow: 0 0 0 3px rgba(27, 110, 79, .12);
+}
+
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 991.98px) {
+    .admin-sidebar {
+        position: static;
+        min-height: auto;
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .admin-welcome {
+        padding: 1.25rem;
+    }
+
+    .admin-welcome h2 {
+        font-size: 1.1rem;
+    }
+
+    .admin-stat-card {
+        padding: 1rem;
+    }
+
+    .admin-stat-info h3 {
+        font-size: 1.25rem;
+    }
+
+    .admin-card-body {
+        padding: 1rem;
+    }
+
+    .admin-table thead th,
+    .admin-table tbody td {
+        padding: .5rem .65rem;
+    }
+
+    /* On phones, admin lists become too wide to read. Show only the row's
+       "name" column (the one carrying the page-defining label) plus the
+       drag handle and the actions column. Pages opt-in their name column
+       by adding the `gp-mobile-keep` class — every other th/td hides on
+       small screens.
+
+       Drag handle = first column (.drag-handle)
+       Name        = whichever th/td has .gp-mobile-keep
+       Actions     = last column (typically text-end)
+    */
+    .admin-table thead th:not(.gp-mobile-keep):not(:last-child),
+    .admin-table tbody td:not(.gp-mobile-keep):not(:last-child):not(.drag-handle) {
+        display: none;
+    }
+    /* Let the name column flex to take the available width. */
+    .admin-table .gp-mobile-keep { width: auto; }
+
+    /* The collapsed navbar gets an opaque white background so the menu
+       isn't see-through over the page content. */
+    .admin-topbar .navbar-collapse {
+        background: #ffffff;
+        margin: .5rem -1.5rem 0;
+        padding: .25rem 1rem 1rem;
+        border-top: 1px solid var(--admin-border, #e5e7eb);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, .08);
+    }
+
+    /* In-hamburger admin menu — replicates the sidebar on phones. */
+    .gp-mobile-admin-menu {
+        padding-top: .5rem;
+    }
+    .gp-mobile-admin-menu .nav-section {
+        font-size: .72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        color: var(--admin-text-muted, #6b7280);
+        padding: .8rem 1rem .3rem;
+    }
+    .gp-mobile-admin-menu .nav-link {
+        display: flex;
+        align-items: center;
+        gap: .65rem;
+        padding: .55rem 1rem;
+        color: var(--admin-text, #1a1208);
+        font-weight: 500;
+        font-size: .95rem;
+        border-radius: 8px;
+        margin: 0 .25rem;
+    }
+    .gp-mobile-admin-menu .nav-link i {
+        width: 22px;
+        text-align: center;
+        color: var(--admin-text-muted, #6b7280);
+    }
+    .gp-mobile-admin-menu .nav-link:hover {
+        background: rgba(212, 160, 60, .08);
+        color: var(--admin-text, #1a1208);
+    }
+    .gp-mobile-admin-menu .nav-link.active {
+        background: linear-gradient(135deg, #fdf5e6, #fbecc4);
+        color: #1a1208;
+    }
+    .gp-mobile-admin-menu .nav-link.active i {
+        color: #b8872e;
+    }
+    .gp-mobile-admin-menu .nav-divider {
+        border-top: 1px solid var(--admin-border, #e5e7eb);
+        margin: .5rem 1rem;
+        height: 0;
+    }
+}
+
+/* ====== Image Preview ====== */
+.img-preview {
+    max-height: 220px;
+    object-fit: cover;
+    border-radius: var(--admin-radius-sm);
+    border: 1px solid var(--admin-border);
+}
+
+/* ====== Success Alert (for tt-auth pages) ====== */
+.tt-success-alert {
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    color: #065f46;
+    padding: .75rem 1rem;
+    border-radius: 8px;
+    font-size: .9rem;
+    margin-bottom: 1.25rem;
+}
+
+/* ====== Form Select Override ====== */
+.admin-form .form-select {
+    border: 1px solid var(--admin-border);
+    border-radius: var(--admin-radius-sm);
+    padding: .625rem .75rem;
+    font-size: .9rem;
+    transition: var(--admin-transition);
+}
+
+.admin-form .form-select:focus {
+    border-color: var(--admin-primary);
+    box-shadow: 0 0 0 3px rgba(27, 110, 79, .12);
+}
+/* ============================================
+   MULTI-SELECT (amenities & similar)
+   ============================================ */
+.gp-multiselect {
+    position: relative;
+}
+
+.gp-multiselect-trigger {
+    width: 100%;
+    min-height: 48px;
+    background: #fff;
+    border: 1px solid var(--admin-border);
+    border-radius: 10px;
+    padding: .55rem .9rem;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    transition: border-color .15s ease, box-shadow .15s ease;
+    color: var(--admin-text);
+}
+.gp-multiselect-trigger:hover,
+.gp-multiselect.is-open .gp-multiselect-trigger {
+    border-color: var(--admin-primary);
+    box-shadow: 0 0 0 .15rem rgba(212, 160, 60, .15);
+}
+
+.gp-multiselect-chips {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+    align-items: center;
+    min-width: 0;
+}
+
+.gp-multiselect-placeholder {
+    color: #9ca3af;
+    font-size: .95rem;
+}
+
+.gp-multiselect-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .3rem .55rem .3rem .6rem;
+    background: var(--admin-primary-light);
+    color: var(--admin-primary-hover);
+    border-radius: 999px;
+    font-size: .82rem;
+    font-weight: 600;
+    line-height: 1.1;
+}
+.gp-multiselect-chip i {
+    font-size: .85rem;
+    color: var(--admin-primary);
+}
+.gp-multiselect-chip-x {
+    background: transparent;
+    border: none;
+    color: inherit;
+    font-size: 1.15rem;
+    line-height: 1;
+    padding: 0 .15rem 0 .2rem;
+    cursor: pointer;
+    opacity: .65;
+    transition: opacity .15s ease;
+}
+.gp-multiselect-chip-x:hover { opacity: 1; }
+
+.gp-multiselect-caret {
+    color: var(--admin-text-muted);
+    font-size: .8rem;
+    transition: transform .2s ease;
+    flex-shrink: 0;
+}
+.gp-multiselect.is-open .gp-multiselect-caret { transform: rotate(180deg); }
+
+.gp-multiselect-panel {
+    position: absolute;
+    top: calc(100% + .4rem);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid var(--admin-border);
+    border-radius: 12px;
+    box-shadow: 0 14px 36px rgba(0, 0, 0, .14), 0 2px 6px rgba(0, 0, 0, .06);
+    z-index: 100;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    max-height: 360px;
+}
+
+.gp-multiselect-search-wrap {
+    position: relative;
+    padding: .65rem .85rem;
+    border-bottom: 1px solid var(--admin-border);
+}
+.gp-multiselect-search-wrap > i {
+    position: absolute;
+    left: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    font-size: .85rem;
+    pointer-events: none;
+}
+.gp-multiselect-search {
+    width: 100%;
+    border: 1px solid transparent;
+    background: #f5f5f5;
+    border-radius: 8px;
+    padding: .55rem .7rem .55rem 2rem;
+    font-size: .9rem;
+    outline: none;
+    color: var(--admin-text);
+}
+.gp-multiselect-search:focus {
+    background: #fff;
+    border-color: var(--admin-primary);
+}
+
+.gp-multiselect-options {
+    overflow-y: auto;
+    padding: .35rem;
+}
+
+.gp-multiselect-option {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+    padding: .55rem .7rem;
+    border-radius: 8px;
+    cursor: pointer;
+    user-select: none;
+    transition: background .12s ease;
+    font-size: .92rem;
+    color: var(--admin-text);
+    margin: 0;
+}
+.gp-multiselect-option:hover { background: rgba(212, 160, 60, .1); }
+.gp-multiselect-option input { display: none; }
+.gp-multiselect-option-icon {
+    color: var(--admin-primary);
+    width: 20px;
+    text-align: center;
+    flex-shrink: 0;
+}
+.gp-multiselect-option > span { flex: 1; }
+.gp-multiselect-option-check {
+    color: var(--admin-primary);
+    opacity: 0;
+    transition: opacity .15s ease;
+    font-size: .85rem;
+}
+.gp-multiselect-option.is-checked {
+    background: rgba(212, 160, 60, .12);
+    font-weight: 600;
+}
+.gp-multiselect-option.is-checked .gp-multiselect-option-check { opacity: 1; }
+
