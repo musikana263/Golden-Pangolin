@@ -74,6 +74,8 @@
 						<label>Website</label>
 						<input type="text" name="website" tabindex="-1" autocomplete="off">
 					</div>
+					{{-- Time trap — lets the server reject instant bot submissions. --}}
+					<input type="hidden" name="form_started" value="{{ \Illuminate\Support\Facades\Crypt::encryptString((string) now()->timestamp) }}">
 					<div class="tt-form-group">
 						<label class="tt-label"><i class="fas fa-user me-1"></i> Full Name *</label>
 						<input type="text" name="name" class="tt-input {{ $errors->has('name') ? 'is-invalid' : '' }}"

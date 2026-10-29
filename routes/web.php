@@ -183,7 +183,7 @@ Route::get('/contact', [WelcomeController::class, 'contact'])->name('contact');
 
 // Contact form submit (rate-limited so spam can't flood the DB).
 Route::post('/contact', [ContactUsController::class, 'ContactUs'])
-    ->middleware('throttle:5,1')
+    ->middleware('throttle:3,10')
     ->name('contact.store');
 
 // Traveller tier (local / african / international) — guests + auth users alike.
